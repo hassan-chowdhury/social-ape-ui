@@ -8,14 +8,14 @@ const Login = ({ containerRef }) => {
     const [password, setPassword] = useState('');
 
     const handleSubmit = () => {
-        const url = "http://localhost:10524/auth/login"
-        let data = {
-            "email": email,
-            "password": password
-        };
-        axios.post(url, data)
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+      const url = "http://localhost:10524/auth/login"
+      let data = {
+        "email": email,
+        "password": password
+      };
+      axios.post(url, data)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
     }
 
     return (
@@ -23,7 +23,7 @@ const Login = ({ containerRef }) => {
         <div className="header">Login</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            <img src={loginImg} alt="" />
           </div>
           <div className="form">
             <div className="form-group">
