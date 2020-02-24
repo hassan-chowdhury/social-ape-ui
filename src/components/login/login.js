@@ -1,22 +1,54 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import loginImg from "../../logo.svg";
 
 
-const Login = ({ containerRef }) => {
+const Login = ({containerRef}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const emailRef = useRef(null);
+  useEffect(() => emailRef.current.focus(), []);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      // enter key pressed
+      handleSubmit();
+    }
+  };
+
+  const validate = () => {
+    let errors = {};
+    let formIsValid = true;
+
+    if (!email) {
+      errors["email"] = "Required";
+      formIsValid = false;
+    }
+
+    if (!password) {
+      errors["password"] = "Required";
+      formIsValid = false;
+    }
+
+    return {"errors": errors, "formIsValid": formIsValid};
+  };
+
   const handleSubmit = () => {
-    const url = "http://localhost:10524/auth/login"
-    let data = {
-      "email": email,
-      "password": password
-    };
-    axios.post(url, data)
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
-  }
+    let formValidation = validate();
+    if (formValidation.formIsValid) {
+      const url = "http://localhost:10524/auth/login"
+      let data = {
+        "email": email,
+        "password": password
+      };
+      axios.post(url, data)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+    } else {
+      alert(JSON.stringify(formValidation.errors));
+    }
+  };
 
   return (
     <div className="base-container" ref={containerRef}>
@@ -28,22 +60,25 @@ const Login = ({ containerRef }) => {
         <div className="form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input 
-              type="text" 
+            <input
+              ref={emailRef}
+              type="text"
               name="email"
               placeholder="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input 
+            <input
               type="password"
               name="password"
               placeholder="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
           </div>
         </div>
