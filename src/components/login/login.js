@@ -51,7 +51,7 @@ const Login = ({containerRef}) => {
         <div className="image">
           <img className="App-logo" src={loginImg} alt="" />
         </div>
-        <form className="form" onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleSubmit} autoComplete="on">
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -60,6 +60,7 @@ const Login = ({containerRef}) => {
               name="email"
               placeholder="email"
               value={email}
+              autoComplete="username"
               onChange={e => setEmail(e.target.value)}
             />
           </div>
@@ -70,6 +71,7 @@ const Login = ({containerRef}) => {
               name="password"
               placeholder="password"
               value={password}
+              autoComplete="current-password"
               onChange={e => setPassword(e.target.value)}
             />
           </div>
