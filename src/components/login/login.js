@@ -10,13 +10,6 @@ const Login = ({containerRef}) => {
   const emailRef = useRef(null);
   useEffect(() => emailRef.current.focus(), []);
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      // enter key pressed
-      handleSubmit();
-    }
-  };
-
   const validate = () => {
     let errors = {};
     let formIsValid = true;
@@ -34,7 +27,8 @@ const Login = ({containerRef}) => {
     return {"errors": errors, "formIsValid": formIsValid};
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let formValidation = validate();
     if (formValidation.formIsValid) {
       const url = "http://localhost:10524/auth/login"
@@ -55,9 +49,9 @@ const Login = ({containerRef}) => {
       <div className="header">Login</div>
       <div className="content">
         <div className="image">
-          <img src={loginImg} alt="" />
+          <img className="App-logo" src={loginImg} alt="" />
         </div>
-        <div className="form">
+        <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -67,7 +61,6 @@ const Login = ({containerRef}) => {
               placeholder="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              onKeyDown={handleKeyPress}
             />
           </div>
           <div className="form-group">
@@ -78,13 +71,12 @@ const Login = ({containerRef}) => {
               placeholder="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              onKeyDown={handleKeyPress}
             />
           </div>
-        </div>
-      </div>
-      <div className="footer">
-        <button type="button" className="btn" onClick={handleSubmit}>Login</button>
+          <div className="footer">
+            <button type="submit" className="btn">Login</button>
+          </div>
+        </form>
       </div>
     </div>
   );

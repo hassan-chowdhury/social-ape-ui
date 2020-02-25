@@ -11,12 +11,6 @@ const Register = ({containerRef}) => {
   const usernameRef = useRef(null);
   useEffect(() => usernameRef.current.focus(), []);
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
-
   const validate = () => {
     let errors = {};
     let formIsValid = true;
@@ -39,7 +33,8 @@ const Register = ({containerRef}) => {
     return {"errors": errors, "formIsValid": formIsValid};
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let formValidation = validate();
     if (formValidation.formIsValid) {
       const url = "http://localhost:10524/auth/register"
@@ -61,9 +56,9 @@ const Register = ({containerRef}) => {
       <div className="header">Register</div>
       <div className="content">
         <div className="image">
-          <img src={loginImg} alt="" />
+          <img className="App-logo" src={loginImg} alt="" />
         </div>
-        <div className="form">
+        <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -73,7 +68,6 @@ const Register = ({containerRef}) => {
               placeholder="username"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              onKeyDown={handleKeyPress}
             />
           </div>
           <div className="form-group">
@@ -84,7 +78,6 @@ const Register = ({containerRef}) => {
               placeholder="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              onKeyDown={handleKeyPress}
             />
           </div>
           <div className="form-group">
@@ -95,15 +88,12 @@ const Register = ({containerRef}) => {
               placeholder="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              onKeyDown={handleKeyPress}
             />
           </div>
-        </div>
-      </div>
-      <div className="footer">
-        <button type="button" className="btn" onClick={handleSubmit}>
-          Register
-        </button>
+          <div className="footer">
+            <button type="submit" className="btn">Register</button>
+          </div>
+        </form>
       </div>
     </div>
   );

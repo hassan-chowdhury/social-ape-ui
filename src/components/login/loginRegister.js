@@ -8,19 +8,21 @@ const LoginRegister = () => {
   const [isLoginActive, setIsLoginActive] = useState(true);
   const [tabName, setTabName] = useState('Register');
 
-  useEffect(() => LoginRegister.rightSide.classList.add("right"), []);
+  useEffect(() => LoginRegister.adjacentTab.classList.add("right"), []);
 
-  const changeState = () => {
-    const rightSide = LoginRegister.rightSide;
-    if (isLoginActive) {
-      rightSide.classList.remove("right");
-      rightSide.classList.add("left");
-      setTabName("Login");
-    } else {
-      rightSide.classList.remove("left");
-      rightSide.classList.add("right");
-      setTabName("Register");
-    }
+  const selectLoginTab = () => {
+    const adjacentTab = LoginRegister.adjacentTab;
+    adjacentTab.classList.remove("right");
+    adjacentTab.classList.add("left");
+    setTabName("Login");
+    setIsLoginActive(!isLoginActive);
+  };
+
+  const selectRegisterTab = () => {
+    const adjacentTab = LoginRegister.adjacentTab;
+    adjacentTab.classList.remove("left");
+    adjacentTab.classList.add("right");
+    setTabName("Register");
     setIsLoginActive(!isLoginActive);
   };
 
@@ -34,16 +36,16 @@ const LoginRegister = () => {
           <Register containerRef={ref => (LoginRegister.current = ref)} />
         )}
       </div>
-      <RightSide
+      <AdjacentTab
         tabName={tabName}
-        containerRef={ref => (LoginRegister.rightSide = ref)}
-        onClick={changeState}
+        containerRef={ref => (LoginRegister.adjacentTab = ref)}
+        onClick={() => isLoginActive ? selectLoginTab() : selectRegisterTab() }
       />
     </div>
   );
 };
     
-const RightSide = props => (
+const AdjacentTab = props => (
   <div className="right-side" ref={props.containerRef} onClick={props.onClick} >
     <div className="inner-container">
       <div className="text">{props.tabName}</div>
