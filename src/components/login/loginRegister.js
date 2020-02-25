@@ -5,25 +5,27 @@ import Register from "./register";
 
 
 const LoginRegister = () => {
-  const [isLoginActive, setIsLoginActive] = useState(true);
-  const [tabName, setTabName] = useState('Register');
+  const [isLoginActive, setIsLoginActive] = useState(false);
+  const [adjTabName, setAdjTabName] = useState(isLoginActive ? "Register" : "Login");
+  const [adjTabIsOnRight, setAdjTabIsOnRight] = useState(true);
 
   useEffect(() => LoginRegister.adjacentTab.classList.add("right"), []);
 
-  const selectLoginTab = () => {
+  const changeTab = () => {
     const adjacentTab = LoginRegister.adjacentTab;
-    adjacentTab.classList.remove("right");
-    adjacentTab.classList.add("left");
-    setTabName("Login");
-    setIsLoginActive(!isLoginActive);
-  };
 
-  const selectRegisterTab = () => {
-    const adjacentTab = LoginRegister.adjacentTab;
-    adjacentTab.classList.remove("left");
-    adjacentTab.classList.add("right");
-    setTabName("Register");
+    if (adjTabIsOnRight) {
+      adjacentTab.classList.remove("right");
+      adjacentTab.classList.add("left");
+      setAdjTabIsOnRight(!adjTabIsOnRight);
+    } else {
+      adjacentTab.classList.remove("left");
+      adjacentTab.classList.add("right");
+      setAdjTabIsOnRight(!adjTabIsOnRight);
+    }
+
     setIsLoginActive(!isLoginActive);
+    setAdjTabName(isLoginActive ? "Login" : "Register");
   };
 
   return (
@@ -37,9 +39,9 @@ const LoginRegister = () => {
         )}
       </div>
       <AdjacentTab
-        tabName={tabName}
+        tabName={adjTabName}
         containerRef={ref => (LoginRegister.adjacentTab = ref)}
-        onClick={() => isLoginActive ? selectLoginTab() : selectRegisterTab() }
+        onClick={changeTab}
       />
     </div>
   );
