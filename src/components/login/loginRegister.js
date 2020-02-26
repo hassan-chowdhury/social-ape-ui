@@ -4,8 +4,8 @@ import Login from "./login";
 import Register from "./register";
 
 
-const LoginRegister = () => {
-  const [isLoginActive, setIsLoginActive] = useState(false);
+const LoginRegister = ({showLogin}) => {
+  const [isLoginActive, setIsLoginActive] = useState(showLogin);
   const [adjTabName, setAdjTabName] = useState(isLoginActive ? "Register" : "Login");
   const [adjTabIsOnRight, setAdjTabIsOnRight] = useState(true);
 

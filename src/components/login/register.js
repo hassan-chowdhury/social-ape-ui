@@ -1,42 +1,55 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import loginImg from "../../logo.svg";
+import {
+  formValid,
+  validateUsername,
+  validateEmail,
+  validatePassword,
+} from "../../validations";
 
 
 const Register = ({containerRef}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [formErrors, setFormErrors] = useState({
+    username: "Required!",
+    email: "Required!",
+    password: "Required!"
+  });
 
   const usernameRef = useRef(null);
   useEffect(() => usernameRef.current.focus(), []);
 
-  const validate = () => {
-    let errors = {};
-    let formIsValid = true;
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    let errors = formErrors;
 
-    if (!username) {
-      errors["username"] = "Required";
-      formIsValid = false;
+    switch(name) {
+      case "username":
+        errors.username = validateUsername(value);
+        setUsername(value);
+        break;
+      case "email":
+        errors.email = validateEmail(value);
+        setEmail(value);
+        break;
+      case "password":
+        errors.password = validatePassword(value);
+        setPassword(value);
+        break;
+      default:
+        break;
     }
 
-    if (!email) {
-      errors["email"] = "Required";
-      formIsValid = false;
-    }
-
-    if (!password) {
-      errors["password"] = "Required";
-      formIsValid = false;
-    }
-
-    return {"errors": errors, "formIsValid": formIsValid};
-  };
+    setFormErrors(errors);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let formValidation = validate();
-    if (formValidation.formIsValid) {
+
+    if (formValid(formErrors)) {
       const url = "http://localhost:10524/auth/register"
       let data = {
         "name": username,
@@ -47,7 +60,7 @@ const Register = ({containerRef}) => {
       .then(response => console.log(response))
       .catch(error => console.log(error));
     } else {
-      alert(JSON.stringify(formValidation.errors));
+      alert(JSON.stringify(formErrors));
     }
   }
 
@@ -67,7 +80,7 @@ const Register = ({containerRef}) => {
               name="username"
               placeholder="username"
               value={username}
-              onChange={e => setUsername(e.target.value)}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -77,7 +90,7 @@ const Register = ({containerRef}) => {
               name="email"
               placeholder="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -87,7 +100,7 @@ const Register = ({containerRef}) => {
               name="password"
               placeholder="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={handleChange}
             />
           </div>
           <div className="footer">

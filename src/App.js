@@ -1,12 +1,27 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from "react-router-dom";
 
 import "./App.scss";
 import { LoginRegister } from "./components/login";
 
+
 const App = () => (
   <div className="App">
-    <LoginRegister />
+    <Router>
+      <Switch>
+        {/* <Route exact path="/" /> */}
+        <Route path="/login">
+          <LoginRegister showLogin={true} />
+        </Route>
+        <Route path="/register">
+          <LoginRegister showLogin={false} />
+        </Route>
+      </Switch>
+    </Router>
   </div>
 );
 
