@@ -50,7 +50,7 @@ const Register = ({containerRef}) => {
     e.preventDefault();
 
     if (formValid(formErrors)) {
-      const url = "http://localhost:10524/auth/register"
+      const url = "auth/register"
       let data = {
         "name": username,
         "email": email,

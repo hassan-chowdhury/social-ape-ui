@@ -43,7 +43,7 @@ const Login = ({containerRef}) => {
     e.preventDefault();
 
     if (formValid(formErrors)) {
-      const url = "http://localhost:10524/auth/login"
+      const url = "auth/login"
       let data = {
         "email": email,
         "password": password
