@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 
@@ -84,7 +85,7 @@ const Login = ({ containerRef }) => {
             onChange={handleChange}
           />
           <div className="footer">
-            <button type="submit" className="btn">Login</button>
+            <Button variant="contained" color="primary" type="submit">Login</Button>
           </div>
         </form>
       </div>
