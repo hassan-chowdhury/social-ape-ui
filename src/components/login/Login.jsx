@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 
 import loginImg from '../../logo.svg';
@@ -17,9 +18,6 @@ const Login = ({ containerRef }) => {
     email: 'Required!',
     password: 'Required!',
   });
-
-  const emailRef = useRef(null);
-  useEffect(() => emailRef.current.focus(), []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,29 +64,25 @@ const Login = ({ containerRef }) => {
           <img className="App-logo" src={loginImg} alt="" />
         </div>
         <form className="form" onSubmit={handleSubmit} autoComplete="on">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              ref={emailRef}
-              type="text"
-              name="email"
-              placeholder="email"
-              value={email}
-              autoComplete="username"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="password"
-              value={password}
-              autoComplete="current-password"
-              onChange={handleChange}
-            />
-          </div>
+          <TextField
+            autoFocus
+            label="Email"
+            variant="standard"
+            margin="normal"
+            type="text"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Password"
+            variant="standard"
+            margin="normal"
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
           <div className="footer">
             <button type="submit" className="btn">Login</button>
           </div>
