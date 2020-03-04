@@ -1,41 +1,43 @@
-import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
-import loginImg from "../../logo.svg";
+import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+
+import loginImg from '../../logo.svg';
 import {
   formValid,
   validateUsername,
   validateEmail,
   validatePassword,
-} from "../../validations";
+} from '../../validations';
 
 
-const Register = ({containerRef}) => {
+const Register = ({ containerRef }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({
-    username: "Required!",
-    email: "Required!",
-    password: "Required!"
+    username: 'Required!',
+    email: 'Required!',
+    password: 'Required!',
   });
 
   const usernameRef = useRef(null);
   useEffect(() => usernameRef.current.focus(), []);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    let errors = formErrors;
+    const { name, value } = e.target;
+    const errors = formErrors;
 
-    switch(name) {
-      case "username":
+    switch (name) {
+      case 'username':
         errors.username = validateUsername(value);
         setUsername(value);
         break;
-      case "email":
+      case 'email':
         errors.email = validateEmail(value);
         setEmail(value);
         break;
-      case "password":
+      case 'password':
         errors.password = validatePassword(value);
         setPassword(value);
         break;
@@ -44,25 +46,25 @@ const Register = ({containerRef}) => {
     }
 
     setFormErrors(errors);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (formValid(formErrors)) {
-      const url = "auth/register"
-      let data = {
-        "name": username,
-        "email": email,
-        "password": password
+      const url = 'auth/register';
+      const data = {
+        name: username,
+        email,
+        password,
       };
       axios.post(url, data)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
     } else {
       alert(JSON.stringify(formErrors));
     }
-  }
+  };
 
   return (
     <div className="base-container" ref={containerRef}>
@@ -111,5 +113,11 @@ const Register = ({containerRef}) => {
     </div>
   );
 };
+
+const propTypes = {
+  containerRef: PropTypes.func.isRequired,
+};
+
+Register.propTypes = propTypes;
 
 export default Register;

@@ -1,34 +1,36 @@
-import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
-import loginImg from "../../logo.svg";
+import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+
+import loginImg from '../../logo.svg';
 import {
   formValid,
   validateEmail,
   validatePassword,
-} from "../../validations";
+} from '../../validations';
 
 
-const Login = ({containerRef}) => {
+const Login = ({ containerRef }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({
-    email: "Required!",
-    password: "Required!"
+    email: 'Required!',
+    password: 'Required!',
   });
 
   const emailRef = useRef(null);
   useEffect(() => emailRef.current.focus(), []);
 
-  const handleChange = e => {
-    const {name, value} = e.target;
-    let errors = formErrors;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const errors = formErrors;
 
-    switch(name) {
-      case "email":
+    switch (name) {
+      case 'email':
         errors.email = validateEmail(value);
         setEmail(value);
         break;
-      case "password":
+      case 'password':
         errors.password = validatePassword(value);
         setPassword(value);
         break;
@@ -43,14 +45,14 @@ const Login = ({containerRef}) => {
     e.preventDefault();
 
     if (formValid(formErrors)) {
-      const url = "auth/login"
-      let data = {
-        "email": email,
-        "password": password
+      const url = 'auth/login';
+      const data = {
+        email,
+        password,
       };
       axios.post(url, data)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
     } else {
       alert(JSON.stringify(formErrors));
     }
@@ -94,6 +96,12 @@ const Login = ({containerRef}) => {
       </div>
     </div>
   );
-}
+};
+
+const propTypes = {
+  containerRef: PropTypes.func.isRequired,
+};
+
+Login.propTypes = propTypes;
 
 export default Login;
